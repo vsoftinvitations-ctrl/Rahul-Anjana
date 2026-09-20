@@ -1,0 +1,179 @@
+/**
+ * Preloader Component with Brittany Signature Script Handwriting Animation
+ * Background: /assets/preloder.png
+ * Center Writings:
+ *   Rahul
+ *   &
+ *   Anjana
+ */
+
+export function renderPreloader() {
+  return `
+    <div id="wedding-preloader" class="wedding-preloader" role="dialog" aria-modal="true" aria-label="Wedding Invitation Preloader">
+      <!-- Fullscreen Background Image with Ken Burns effect and cinematic vignette -->
+      <div class="preloader-bg-media">
+        <img src="/assets/preloder.png" alt="Rahul & Anjana" class="preloader-bg-img" />
+        <div class="preloader-overlay"></div>
+      </div>
+
+      <!-- Floating subtle gold stardust / petals -->
+      <div class="preloader-particles" aria-hidden="true">
+        <span class="preloader-particle p1"></span>
+        <span class="preloader-particle p2"></span>
+        <span class="preloader-particle p3"></span>
+        <span class="preloader-particle p4"></span>
+        <span class="preloader-particle p5"></span>
+        <span class="preloader-particle p6"></span>
+      </div>
+
+      <!-- Center Content: Auspicious Monogram + Handwriting Script -->
+      <div class="preloader-content">
+        <!-- Top Inscription -->
+        <div class="preloader-top-badge">
+          <span class="preloader-tagline">WEDDING INVITATION</span>
+        </div>
+
+        <!-- Brittany Signature Script Handwriting Animation Container -->
+        <div class="preloader-script-container" id="preloader-script-box">
+          <!-- Line 1: Rahul -->
+          <div class="script-line script-rahul">
+            <span class="script-text">Rahul</span>
+            <span class="calligraphy-pen-spark" id="spark-rahul"></span>
+          </div>
+
+          <!-- Line 2: & Ampersand -->
+          <div class="script-line script-ampersand">
+            <span class="script-text">&amp;</span>
+          </div>
+
+          <!-- Line 3: Anjana -->
+          <div class="script-line script-anjana">
+            <span class="script-text">Anjana</span>
+            <span class="calligraphy-pen-spark" id="spark-anjana"></span>
+          </div>
+
+          <!-- Calligraphy Flourish Line underneath -->
+          <div class="flourish-wrap">
+            <svg class="calligraphy-flourish" viewBox="0 0 280 26" fill="none" preserveAspectRatio="none">
+              <path class="flourish-path" d="M14,14 C65,4 105,6 140,16 C175,24 215,10 266,8" stroke="url(#goldFlourishGrad)" stroke-width="2.2" stroke-linecap="round" />
+              <defs>
+                <linearGradient id="goldFlourishGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="rgba(245, 230, 180, 0.1)" />
+                  <stop offset="35%" stop-color="rgba(255, 235, 170, 0.95)" />
+                  <stop offset="70%" stop-color="rgba(218, 165, 32, 0.95)" />
+                  <stop offset="100%" stop-color="rgba(245, 230, 180, 0.1)" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Subtitle & Date -->
+        <div class="preloader-subtext">
+          <p class="preloader-date">15 . FEBRUARY . 2027</p>
+        </div>
+
+        <!-- Bottom Enter / Tap to Open Button (appears after name & date) -->
+        <div class="preloader-footer">
+          <button class="preloader-open-pill-btn" id="preloader-enter-btn" aria-label="Tap to Open Invitation">
+            <span>Tap to Open</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+export function initPreloader() {
+  const preloader = document.getElementById('wedding-preloader');
+  if (!preloader) return;
+
+  // Lock body scroll while preloader is visible
+  document.body.classList.add('preloader-active');
+
+  let isDismissed = false;
+  let canEnter = false; // Only allow entering once the Tap to Open button arrives!
+
+  function dismissPreloader() {
+    if (!canEnter || isDismissed) return;
+    isDismissed = true;
+
+    preloader.classList.add('preloader-fade-out');
+    document.body.classList.remove('preloader-active');
+
+    // Trigger audio autoplay if user interacted
+    const audioToggle = document.getElementById('audio-toggle-btn');
+    const bgAudio = document.getElementById('bg-music');
+    if (bgAudio && bgAudio.paused) {
+      bgAudio.play().then(() => {
+        if (audioToggle) {
+          audioToggle.classList.add('playing');
+          audioToggle.setAttribute('aria-label', 'Pause traditional background music');
+        }
+      }).catch(() => {
+        // Autoplay policy restrictions if any
+      });
+    }
+
+    setTimeout(() => {
+      preloader.style.display = 'none';
+      preloader.setAttribute('aria-hidden', 'true');
+    }, 900);
+  }
+
+  // Click or tap anywhere to dismiss only once button arrives
+  preloader.addEventListener('click', () => {
+    if (canEnter) dismissPreloader();
+  });
+
+  const enterBtn = document.getElementById('preloader-enter-btn');
+  if (enterBtn) {
+    enterBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (canEnter) dismissPreloader();
+    });
+  }
+
+  // Also support keyboard Enter/Space/Escape only once button arrives
+  window.addEventListener('keydown', (e) => {
+    if (canEnter && (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ')) {
+      dismissPreloader();
+    }
+  });
+
+  // Wait for Brittany Signature font to load, then trigger animations
+  const startAnimation = () => {
+    preloader.classList.add('preloader-animating');
+
+    // After animations conclude (around 3.7s), trigger golden shimmer on signature and ensure permanent visibility
+    setTimeout(() => {
+      const scriptBox = document.getElementById('preloader-script-box');
+      if (scriptBox) {
+        scriptBox.classList.add('shimmer-active');
+        scriptBox.querySelectorAll('.script-text').forEach((el) => {
+          el.style.clipPath = 'none';
+          el.style.opacity = '1';
+          el.style.visibility = 'visible';
+        });
+      }
+    }, 3700);
+
+    // Exactly when the Tap to Open button arrives (4.2s), unlock the ability to enter!
+    setTimeout(() => {
+      canEnter = true;
+      preloader.classList.add('preloader-ready-to-enter');
+      const enterBtn = document.getElementById('preloader-enter-btn');
+      if (enterBtn) enterBtn.classList.add('ready-pulse');
+    }, 4200);
+  };
+
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load('48px "Brittany Signature"').then(() => {
+      startAnimation();
+    }).catch(() => {
+      startAnimation();
+    });
+  } else {
+    setTimeout(startAnimation, 300);
+  }
+}
