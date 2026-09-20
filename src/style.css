@@ -189,64 +189,6 @@ body::before {
   z-index: 100;
 }
 
-/* Floating Audio Player Control */
-.audio-control-btn {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 500;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: rgba(253, 251, 247, 0.92);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1.5px solid var(--gold-antique);
-  color: var(--gold-deep);
-  box-shadow: 0 6px 24px rgba(45, 30, 22, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.3s var(--ease-gentle);
-}
-
-.audio-control-btn:hover {
-  transform: scale(1.08);
-  border-color: var(--gold-primary);
-  box-shadow: var(--shadow-gold);
-}
-
-.audio-control-btn:active {
-  transform: scale(0.96);
-}
-
-.audio-pulse {
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  border: 1px solid var(--gold-antique);
-  animation: audioRipple 2.5s infinite ease-out;
-  opacity: 0;
-}
-
-.audio-control-btn.playing .audio-pulse {
-  opacity: 1;
-}
-
-@keyframes audioRipple {
-  0% {
-    transform: scale(0.95);
-    opacity: 0.8;
-  }
-
-  100% {
-    transform: scale(1.4);
-    opacity: 0;
-  }
-}
-
 /* Section Common Styles */
 section {
   position: relative;
@@ -1782,11 +1724,11 @@ body.preloader-active #app>*:not(#wedding-preloader) {
   transform: scale(0.97) translateY(24px) !important;
 }
 
-/* Smooth, grand reveal of the innerside of the invitation once Tap to Open is clicked */
+/* Slow, dreamy, serene reveal of the innerside of the invitation */
 #app>*:not(#wedding-preloader) {
-  transition: opacity 1.1s cubic-bezier(0.25, 1, 0.5, 1),
-    transform 1.1s cubic-bezier(0.25, 1, 0.5, 1),
-    visibility 1.1s;
+  transition: opacity 1.8s cubic-bezier(0.25, 1, 0.35, 1),
+    transform 1.8s cubic-bezier(0.25, 1, 0.35, 1),
+    visibility 1.8s;
   transform: scale(1) translateY(0);
 }
 
@@ -1802,9 +1744,9 @@ body.preloader-active #app>*:not(#wedding-preloader) {
   overflow: hidden;
   background-color: #0E0A07;
   cursor: default;
-  transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.9s cubic-bezier(0.4, 0, 0.2, 1),
-              visibility 0.9s;
+  transition: opacity 1.8s cubic-bezier(0.25, 1, 0.35, 1),
+              transform 1.8s cubic-bezier(0.25, 1, 0.35, 1),
+              visibility 1.8s;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -1815,7 +1757,7 @@ body.preloader-active #app>*:not(#wedding-preloader) {
 
 .wedding-preloader.preloader-fade-out {
   opacity: 0;
-  transform: scale(1.03);
+  transform: scale(1.04);
   pointer-events: none;
   visibility: hidden;
 }
@@ -2051,10 +1993,10 @@ body.preloader-active #app>*:not(#wedding-preloader) {
     0 0 22px rgba(235, 205, 130, 0.95);
 }
 
-/* Handwriting Keyframe Animations with generous bounds so flourishes are NEVER clipped */
-/* Line 1: Rahul (1.35s duration starting at 0.45s) */
+/* Handwriting Keyframe Animations — leisurely, graceful pacing */
+/* Line 1: Rahul (1.7s duration starting at 0.6s) */
 .preloader-animating .script-rahul .script-text {
-  animation: writeRahul 1.35s cubic-bezier(0.35, 0, 0.25, 1) 0.45s forwards;
+  animation: writeRahul 1.7s cubic-bezier(0.35, 0, 0.25, 1) 0.6s forwards;
 }
 
 @keyframes writeRahul {
@@ -2069,9 +2011,9 @@ body.preloader-active #app>*:not(#wedding-preloader) {
   }
 }
 
-/* Line 2: Ampersand Reveal (0.7s starting at 1.7s) */
+/* Line 2: Ampersand Reveal (0.8s starting at 2.2s) */
 .preloader-animating .script-ampersand .script-text {
-  animation: revealAmpersand 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.7s forwards;
+  animation: revealAmpersand 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 2.2s forwards;
 }
 
 @keyframes revealAmpersand {
@@ -2091,9 +2033,9 @@ body.preloader-active #app>*:not(#wedding-preloader) {
   }
 }
 
-/* Line 3: Anjana (1.45s duration starting at 2.2s) */
+/* Line 3: Anjana (1.8s duration starting at 2.9s) */
 .preloader-animating .script-anjana .script-text {
-  animation: writeAnjana 1.45s cubic-bezier(0.35, 0, 0.25, 1) 2.2s forwards;
+  animation: writeAnjana 1.8s cubic-bezier(0.35, 0, 0.25, 1) 2.9s forwards;
 }
 
 @keyframes writeAnjana {
@@ -2128,7 +2070,7 @@ body.preloader-active #app>*:not(#wedding-preloader) {
 }
 
 .preloader-animating .script-rahul .calligraphy-pen-spark {
-  animation: sparkMoveRahul 1.35s cubic-bezier(0.35, 0, 0.25, 1) 0.45s forwards;
+  animation: sparkMoveRahul 1.7s cubic-bezier(0.35, 0, 0.25, 1) 0.6s forwards;
 }
 
 @keyframes sparkMoveRahul {
@@ -2157,7 +2099,7 @@ body.preloader-active #app>*:not(#wedding-preloader) {
 }
 
 .preloader-animating .script-anjana .calligraphy-pen-spark {
-  animation: sparkMoveAnjana 1.45s cubic-bezier(0.35, 0, 0.25, 1) 2.2s forwards;
+  animation: sparkMoveAnjana 1.8s cubic-bezier(0.35, 0, 0.25, 1) 2.9s forwards;
 }
 
 @keyframes sparkMoveAnjana {
@@ -2206,7 +2148,7 @@ body.preloader-active #app>*:not(#wedding-preloader) {
 }
 
 .preloader-animating .flourish-path {
-  animation: drawFlourish 0.9s cubic-bezier(0.25, 1, 0.5, 1) 3.5s forwards;
+  animation: drawFlourish 1.1s cubic-bezier(0.25, 1, 0.5, 1) 4.6s forwards;
 }
 
 @keyframes drawFlourish {
@@ -2257,7 +2199,7 @@ body.preloader-active #app>*:not(#wedding-preloader) {
 }
 
 .preloader-animating .preloader-subtext {
-  animation: fadeInSubtext 0.8s ease 3.7s forwards;
+  animation: fadeInSubtext 1.2s ease 4.9s forwards;
 }
 
 .preloader-date {
@@ -2275,31 +2217,58 @@ body.preloader-active #app>*:not(#wedding-preloader) {
   }
 }
 
-/* Footer: Tap to Open Button (Appears only after name and date have finished) */
-.preloader-footer {
-  margin-top: 1.75rem;
+/* Initial Gate: Tap to Open prompt centered on background image */
+.preloader-gate-wrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 25;
+  transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  cursor: pointer;
+}
+
+.preloader-gate-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1.4rem;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.preloader-gate-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preloader-gate-badge .preloader-tagline {
+  font-family: var(--font-serif-en);
+  font-size: 0.85rem;
+  letter-spacing: 0.42em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  text-shadow: 0 0 14px rgba(223, 202, 149, 0.85), 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+/* When animating names, smoothly fade out the Tap to Open button */
+.wedding-preloader.preloader-animating .preloader-gate-wrapper {
   opacity: 0;
-  transform: translateY(8px);
+  transform: scale(0.92);
   pointer-events: none;
 }
 
-.preloader-ready-to-enter .preloader-footer {
-  pointer-events: auto;
+.wedding-preloader:not(.preloader-animating) .preloader-content {
+  opacity: 0;
+  pointer-events: none;
 }
 
-.preloader-animating .preloader-footer {
-  animation: fadeInFooter 0.8s cubic-bezier(0.25, 1, 0.5, 1) 4.2s forwards;
-}
-
-@keyframes fadeInFooter {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.wedding-preloader.preloader-animating .preloader-content {
+  opacity: 1;
+  transition: opacity 0.6s ease;
 }
 
 /* Small Tap to Open Pill Button */
@@ -2307,22 +2276,23 @@ body.preloader-active #app>*:not(#wedding-preloader) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 22px;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(223, 202, 149, 0.45);
+  gap: 0.6rem;
+  padding: 10px 28px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(223, 202, 149, 0.65);
   border-radius: 9999px;
   color: #FFFDF7;
   font-family: var(--font-body);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 12px rgba(218, 165, 32, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 16px rgba(218, 165, 32, 0.35);
   transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-  animation: pulseOpenBtn 2.4s ease-in-out infinite alternate;
+  animation: pulseOpenBtn 2.2s ease-in-out infinite alternate;
 }
 
 .preloader-open-pill-btn:hover,

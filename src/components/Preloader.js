@@ -1,3 +1,5 @@
+import { startBackgroundMusic } from './BackgroundMusic.js';
+
 /**
  * Preloader Component with Brittany Signature Script Handwriting Animation
  * Background: /assets/preloder.png
@@ -26,8 +28,22 @@ export function renderPreloader() {
         <span class="preloader-particle p6"></span>
       </div>
 
-      <!-- Center Content: Auspicious Monogram + Handwriting Script -->
-      <div class="preloader-content">
+      <!-- Initial Gate: Tap to Open Button directly on Background Image -->
+      <div class="preloader-gate-wrapper" id="preloader-gate-wrapper">
+        <div class="preloader-gate-content">
+          <div class="preloader-gate-badge">
+            <span class="preloader-tagline">WEDDING INVITATION</span>
+          </div>
+          <button class="preloader-open-pill-btn ready-pulse" id="preloader-enter-btn" aria-label="Tap to Open Invitation">
+            <span class="btn-sparkle">✦</span>
+            <span>Tap to Open</span>
+            <span class="btn-sparkle">✦</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Center Content: Auspicious Monogram + Handwriting Script (Reveals after tap) -->
+      <div class="preloader-content" id="preloader-content-box">
         <!-- Top Inscription -->
         <div class="preloader-top-badge">
           <span class="preloader-tagline">WEDDING INVITATION</span>
@@ -72,13 +88,6 @@ export function renderPreloader() {
         <div class="preloader-subtext">
           <p class="preloader-date">15 . FEBRUARY . 2027</p>
         </div>
-
-        <!-- Bottom Enter / Tap to Open Button (appears after name & date) -->
-        <div class="preloader-footer">
-          <button class="preloader-open-pill-btn" id="preloader-enter-btn" aria-label="Tap to Open Invitation">
-            <span>Tap to Open</span>
-          </button>
-        </div>
       </div>
     </div>
   `;
@@ -91,61 +100,32 @@ export function initPreloader() {
   // Lock body scroll while preloader is visible
   document.body.classList.add('preloader-active');
 
-  let isDismissed = false;
-  let canEnter = false; // Only allow entering once the Tap to Open button arrives!
-
-  function dismissPreloader() {
-    if (!canEnter || isDismissed) return;
-    isDismissed = true;
-
-    preloader.classList.add('preloader-fade-out');
-    document.body.classList.remove('preloader-active');
-
-    // Trigger audio autoplay if user interacted
-    const audioToggle = document.getElementById('audio-toggle-btn');
-    const bgAudio = document.getElementById('bg-music');
-    if (bgAudio && bgAudio.paused) {
-      bgAudio.play().then(() => {
-        if (audioToggle) {
-          audioToggle.classList.add('playing');
-          audioToggle.setAttribute('aria-label', 'Pause traditional background music');
-        }
-      }).catch(() => {
-        // Autoplay policy restrictions if any
-      });
-    }
-
-    setTimeout(() => {
-      preloader.style.display = 'none';
-      preloader.setAttribute('aria-hidden', 'true');
-    }, 900);
+  // Pre-load font immediately in background
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load('48px "Brittany Signature"').catch(() => {});
   }
 
-  // Click or tap anywhere to dismiss only once button arrives
-  preloader.addEventListener('click', () => {
-    if (canEnter) dismissPreloader();
-  });
+  let stage = 'waiting'; // 'waiting' | 'revealing' | 'dismissed'
+  let autoDismissTimer = null;
 
-  const enterBtn = document.getElementById('preloader-enter-btn');
-  if (enterBtn) {
-    enterBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (canEnter) dismissPreloader();
-    });
-  }
-
-  // Also support keyboard Enter/Space/Escape only once button arrives
-  window.addEventListener('keydown', (e) => {
-    if (canEnter && (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ')) {
-      dismissPreloader();
+  function handleTapToOpen() {
+    if (stage !== 'waiting') {
+      // If user taps again while names are revealing, immediately reveal the inner side
+      if (stage === 'revealing') {
+        dismissPreloader();
+      }
+      return;
     }
-  });
 
-  // Wait for Brittany Signature font to load, then trigger animations
-  const startAnimation = () => {
+    stage = 'revealing';
+
+    // 1. User gesture unlocks audio playback immediately
+    startBackgroundMusic();
+
+    // 2. Start handwriting name reveal animation on background image
     preloader.classList.add('preloader-animating');
 
-    // After animations conclude (around 3.7s), trigger golden shimmer on signature and ensure permanent visibility
+    // 3. Golden shimmer sweep on signature after writing finishes (5.5s)
     setTimeout(() => {
       const scriptBox = document.getElementById('preloader-script-box');
       if (scriptBox) {
@@ -156,24 +136,49 @@ export function initPreloader() {
           el.style.visibility = 'visible';
         });
       }
-    }, 3700);
+    }, 5500);
 
-    // Exactly when the Tap to Open button arrives (4.2s), unlock the ability to enter!
-    setTimeout(() => {
-      canEnter = true;
-      preloader.classList.add('preloader-ready-to-enter');
-      const enterBtn = document.getElementById('preloader-enter-btn');
-      if (enterBtn) enterBtn.classList.add('ready-pulse');
-    }, 4200);
-  };
-
-  if (document.fonts && document.fonts.load) {
-    document.fonts.load('48px "Brittany Signature"').then(() => {
-      startAnimation();
-    }).catch(() => {
-      startAnimation();
-    });
-  } else {
-    setTimeout(startAnimation, 300);
+    // 4. Leisurely pause to enjoy the sweet violin melody and names, then smoothly reveal the inner side (8.0s)
+    autoDismissTimer = setTimeout(() => {
+      dismissPreloader();
+    }, 8000);
   }
+
+  function dismissPreloader() {
+    if (stage === 'dismissed') return;
+    stage = 'dismissed';
+    if (autoDismissTimer) clearTimeout(autoDismissTimer);
+
+    // Ensure music is active
+    startBackgroundMusic();
+
+    preloader.classList.add('preloader-fade-out');
+    document.body.classList.remove('preloader-active');
+
+    // Matches the 1.8s slow, silky dissolve transition
+    setTimeout(() => {
+      preloader.style.display = 'none';
+      preloader.setAttribute('aria-hidden', 'true');
+    }, 1850);
+  }
+
+  // Click on "Tap to Open" button or anywhere on screen
+  const enterBtn = document.getElementById('preloader-enter-btn');
+  if (enterBtn) {
+    enterBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      handleTapToOpen();
+    });
+  }
+
+  preloader.addEventListener('click', () => {
+    handleTapToOpen();
+  });
+
+  // Also support keyboard Enter/Space/Escape
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+      handleTapToOpen();
+    }
+  });
 }

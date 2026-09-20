@@ -1,7 +1,7 @@
 import './style.css';
 import { renderPreloader, initPreloader } from './components/Preloader.js';
 import { initRosePetals } from './components/RosePetals.js';
-import { initAudioPlayer } from './components/AudioPlayer.js';
+import { initBackgroundMusic } from './components/BackgroundMusic.js';
 import { renderOpeningSection, initOpeningInteractions } from './components/OpeningSection.js';
 import { renderCoupleSection } from './components/CoupleSection.js';
 import { renderWeddingDetails } from './components/WeddingDetails.js';
@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize interactive components
   initPreloader();
+  initBackgroundMusic();
   initRosePetals();
-  initAudioPlayer();
   initOpeningInteractions();
   initCountdownTimer();
   initGalleryCarousel();
