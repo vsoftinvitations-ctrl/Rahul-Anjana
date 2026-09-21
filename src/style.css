@@ -504,15 +504,15 @@ section {
 .couple-cards-container {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2.5rem;
-  max-width: 900px;
+  gap: 2rem;
+  max-width: 960px;
   margin: 0 auto;
 }
 
 @media (min-width: 768px) {
   .couple-cards-container {
     grid-template-columns: 1fr 1fr;
-    gap: 3.5rem;
+    gap: 2.5rem;
   }
 }
 
@@ -528,11 +528,12 @@ section {
 
 .couple-card {
   text-align: center;
-  padding: clamp(2.4rem, 5vw, 3.4rem) clamp(1.5rem, 4vw, 2.5rem);
+  padding: clamp(2.4rem, 4vw, 3.2rem) clamp(1.2rem, 3vw, 2rem);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  height: 100%;
 }
 
 .couple-card-badge {
@@ -547,13 +548,16 @@ section {
   background: rgba(184, 155, 94, 0.1);
   border: 1px solid var(--gold-border-subtle);
   font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .couple-card-divider {
   width: 64px;
   height: 1.5px;
   background: linear-gradient(90deg, transparent, var(--gold-antique), transparent);
-  margin: 1.25rem 0;
+  margin: 1.25rem 0 1.5rem;
 }
 
 .couple-name-title {
@@ -563,6 +567,7 @@ section {
   letter-spacing: 0.04em;
   color: var(--earth-brown);
   margin-bottom: 0.35rem;
+  line-height: 1.25;
 }
 
 .couple-name-ml {
@@ -571,12 +576,32 @@ section {
   color: var(--gold-deep);
   margin-bottom: 0.75rem;
   font-weight: 500;
+  line-height: 1.4;
 }
 
 .couple-card-parents {
-  font-size: 0.98rem;
+  font-size: 0.95rem;
   color: var(--earth-brown-light);
-  line-height: 1.7;
+  line-height: 1.65;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.couple-parents-line {
+  margin-bottom: 0.5rem;
+  min-height: 3.3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 400px;
+}
+
+.couple-address-line {
+  text-align: center;
+  max-width: 400px;
 }
 
 .couple-card-parents .text-muted {
@@ -1652,11 +1677,22 @@ section {
 
 .closing-couple-names {
   font-family: var(--font-serif-en);
-  font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+  font-size: clamp(1.4rem, 4vw, 2.3rem);
   font-weight: 600;
   color: var(--earth-brown);
   letter-spacing: 0.05em;
   margin-bottom: 1.5rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 640px) {
+  .closing-couple-names {
+    font-size: 1.25rem;
+    letter-spacing: 0.03em;
+    margin-bottom: 1.25rem;
+    line-height: 1.4;
+    padding: 0 0.5rem;
+  }
 }
 
 .closing-final-greeting {
@@ -1701,6 +1737,22 @@ section {
 
   .kasavu-card {
     padding: 1.5rem 1.25rem;
+  }
+
+  .closing-with-love {
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+  }
+
+  .closing-couple-names {
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.1rem;
+    line-height: 1.45;
+  }
+
+  .closing-final-greeting {
+    font-size: 1.05rem;
   }
 }
 

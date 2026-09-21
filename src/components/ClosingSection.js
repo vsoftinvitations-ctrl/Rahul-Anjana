@@ -25,9 +25,9 @@ export function renderClosingSection() {
       </div>
 
       <div class="closing-couple-names reveal-on-scroll">
-        <span>${bride.name}</span>
-        <span class="text-gold" style="font-style: italic; font-weight: 400;"> &amp; </span>
         <span>${groom.name}</span>
+        <span class="text-gold" style="font-style: italic; font-weight: 400;"> &amp; </span>
+        <span>${bride.name}</span>
       </div>
 
       <!-- Final Auspicious Greeting -->

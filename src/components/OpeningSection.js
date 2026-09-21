@@ -16,9 +16,9 @@ export function renderOpeningSection() {
           <!-- Minimal Royal Monogram Crest -->
           <div class="opening-monogram reveal-on-scroll revealed">
             <div class="monogram-seal">
-              <span class="monogram-letter">${brideInitial}</span>
-              <span class="monogram-symbol">&amp;</span>
               <span class="monogram-letter">${groomInitial}</span>
+              <span class="monogram-symbol">&amp;</span>
+              <span class="monogram-letter">${brideInitial}</span>
             </div>
           </div>
 
@@ -34,9 +34,9 @@ export function renderOpeningSection() {
 
           <!-- Couple Names (Central Visual Focus) -->
           <h1 class="opening-couple-names reveal-on-scroll revealed reveal-delay-2">
-            <span class="couple-name bride-name">${bride.name}</span>
-            <span class="opening-couple-ampersand">&amp;</span>
             <span class="couple-name groom-name">${groom.name}</span>
+            <span class="opening-couple-ampersand">&amp;</span>
+            <span class="couple-name bride-name">${bride.name}</span>
           </h1>
 
           <!-- Date & Location Minimal Standard Block -->

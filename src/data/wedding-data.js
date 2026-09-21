@@ -45,8 +45,8 @@ export const weddingData = {
     venueAddress: "Temple Gate Road, Near Rajarajeshwara Temple",
     city: "Taliparamba, Kannur, Kerala",
     googleMapsUrl: "https://maps.google.com/?q=Taliparamba,+Kannur,+Kerala,+India",
-    googleCalendarTitle: "Wedding of Anjana & Rahul",
-    googleCalendarDescription: "You are cordially invited with family to celebrate the auspicious Kerala Hindu wedding of Anjana Menon & Rahul Nambiar.",
+    googleCalendarTitle: "Wedding of Rahul & Anjana",
+    googleCalendarDescription: "You are cordially invited with family to celebrate the auspicious Kerala Hindu wedding of Rahul Nambiar & Anjana Menon.",
     // Target ISO date for the live countdown timer (YYYY-MM-DDTHH:mm:ss)
     targetCountdownDate: "2027-02-15T10:30:00"
   },
